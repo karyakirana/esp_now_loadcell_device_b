@@ -43,6 +43,9 @@ typedef struct {
 typedef struct {
   const char* line_1;
   const char* line_2;
+  uint8_t cursor_row;
+  uint8_t cursor_col;
+  bool is_clear;
 } led_data_t;
 
 // ESP32 B akan mengisi struct ini dan mengirimkannya ke A
