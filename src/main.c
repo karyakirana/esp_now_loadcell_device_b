@@ -9,7 +9,6 @@ main_state_t main_state;
 weight_data_t weight_data;
 led_data_t led_data;
 comm_send_data_t comm_send;
-button_event_t button_received_event;
 
 // Queue Handle
 QueueHandle_t main_to_led_queue;

@@ -11,21 +11,80 @@
 #include <button_defs.h>
 
 /**
- * @brief Menginisialisasi driver tombol.
- * Membuat queue event tombol dan task untuk polling tombol.
- * @param num_buttons Jumlah tombol yang akan diinisialisasi.
- * @param button_gpios Array nomor GPIO untuk setiap tombol.
- * @param event_queue_size Ukutan Queue untuk event tombol.
- * @return true jika berhasil, false jika gagal
+ * @brief Pointer ke fungsi callback untuk event tombol
+ * @param button_gpio_num Nomor GPIO tombol yang memicu event
+ * @param event Event yang terjadi
  */
-bool button_driver_init(uint8_t num_buttons, const uint8_t button_gpios[], uint32_t event_queue_size);
+typedef void (*button_callback_t)(gpio_num_t button_gpio_num, button_event_t event);
 
 /**
- * @brief Mendapatkan event tombol dari queue.
- * @param event Pointer ke struktur button_event_t untuk menyimpan event yang diterima.
- * @param timeouts_ms Waktu untuk tunggu maksimum dalam milidetik.
- * @return true jika event diterima, false jika timeout.
+ *
+ * @brief Pointer ke fungsi callback untuk event tombol
+ * @param button1_gpio_num Nomor GPIO tombol 1 yang memicu event
+ * @param button2_gpio_num Nomor GPIO tombol 2 yang memicu event
+ * @param event Event yang terjadi
  */
-bool button_driver_get_event(button_event_t *event, TickType_t timeouts_ms);
+typedef void (*button_combined_callback_t)(gpio_num_t button1_gpio_num,
+                                            gpio_num_t button2_gpio_num,
+                                            button_event_t event);
+
+
+/**
+ * @brief Menginisialisasi tombol
+ * @param config Pointer ke struktur konfigurasi tombol
+ * @return ESP_OK jika berhasil, atau kode error ESP-IDF lainnya
+ */
+esp_err_t button_driver_init(const button_config_t *config);
+
+/**
+ * @brief Memasang callback untuk event tombol.
+ * @param gpio_num Nomor GPIO tombol
+ * @param event Event yang ingin dipantau
+ * @param callback Fungsi callback yang akan dipanggil saat event terjadi
+ * @return ESP_OK jika berhasil, atau kode error ESP-IDF lainnya
+ */
+esp_err_t button_driver_register_callback(gpio_num_t gpio_num, button_event_t event, button_callback_t callback);
+
+/**
+ * @brief Melepas callback dari event tombol
+ * @param gpio_num Nomor GPIO tombol
+ * @param event Event yang ingin dipantau
+ * @return ESP_OK jika berhasil, atau kode error ESP-IDF lainnya
+ */
+esp_err_t button_driver_unregister_callback(gpio_num_t gpio_num, button_event_t event);
+
+/**
+ *
+ * @param gpio_num
+ * @return
+ */
+button_state_t button_driver_get_state(gpio_num_t gpio_num);
+
+/**
+ * @brief Mendapatkan status tombol saat ini.
+ * @param button1_gpio_num
+ * @param button2_gpio_num
+ * @param event
+ * @param callback
+ * @return
+ */
+esp_err_t button_driver_register_combined_callback(
+                                                    gpio_num_t button1_gpio_num,
+                                                    gpio_num_t button2_gpio_num,
+                                                    button_event_t event,
+                                                    button_combined_callback_t callback);
+
+/**
+ * @brief Melepas callback dari event tombol
+ * @param button1_gpio_num
+ * @param button2_gpio_num
+ * @param event
+ * @return
+ */
+esp_err_t button_driver_unregister_combined_callback(
+                                                      gpio_num_t button1_gpio_num,
+                                                      gpio_num_t button2_gpio_num,
+                                                      button_event_t event);
+
 
 #endif //BUTTON_DRIVER_H
