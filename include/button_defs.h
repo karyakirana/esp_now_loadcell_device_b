@@ -6,12 +6,6 @@
 #define BUTTON_DEFS_H
 #include <hal/gpio_types.h>
 
-// Existing enums dan structs
-typedef enum {
-  BUTTON_STATE_RELEASED = 0,
-  BUTTON_STATE_PRESSED
-} button_state_t;
-
 typedef enum {
   BUTTON_EVENT_NONE = 0,
   BUTTON_EVENT_PRESS,

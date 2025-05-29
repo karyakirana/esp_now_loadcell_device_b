@@ -14,15 +14,15 @@ extern "C" {
 
 void main_task_init(void);
 
-bool main_change_state(main_state_t *main_state);
+bool main_task_rcv_button(QueueHandle_t rcv_btn_queue);
 
-bool main_queue_rcv_comm(QueueHandle_t comm_queue, weight_data_t weight_data);
+bool main_task_rcv_comm(QueueHandle_t rcv_comm_queue);
 
-bool main_queue_rcv_btn(void);
+bool main_task_send_comm(QueueHandle_t send_comm_queue);
 
-bool main_queue_send_comm(QueueHandle_t main_to_comm_queue, comm_send_data_t *comm_send_data);
+bool main_task_send_oled(QueueHandle_t send_oled_queue);
 
-bool main_queue_send_led(QueueHandle_t main_to_led_queue, led_data_t *led_data);
+void main_task_update(void);
 
 #ifdef __cplusplus
 }

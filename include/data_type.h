@@ -9,15 +9,19 @@
 
 typedef enum {
   NORMAL_MODE,
-  NORMAL_MODE_TARE,
-  CAL_INIT_MODE,
-  CAL_WAITING_MODE,
-  CAL_INPUT_MODE,
-  CAL_CONFIRMATION_MODE,
-  CAL_CANCEL_MODE,
+  CALIBRATION_MODE,
   SLEEP_MODE,
+  DEEPSLEEP_MODE,
   WAKE_UP_MODE,
 } main_state_t;
+
+typedef enum {
+  CAL_INIT,
+  CAL_WAITING,
+  CAL_INPUT,
+  CAL_CONFIRMATION,
+  CAL_UNKNOWN
+} calibration_state_t;
 
 typedef enum {
   CMD_NORMAL,
