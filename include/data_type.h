@@ -7,6 +7,8 @@
 
 #include <stdint.h>
 
+typedef enum lcd_state_t lcd_state;
+
 typedef enum {
   NORMAL_MODE,
   CALIBRATION_MODE,
@@ -45,12 +47,37 @@ typedef struct {
 } weight_data_t;
 
 typedef struct {
+  lcd_state lcd_state;
   const char* line_1;
   const char* line_2;
   uint8_t cursor_row;
   uint8_t cursor_col;
   bool is_clear;
 } led_data_t;
+
+typedef enum {
+  LCD_IDLE = 0,
+  LCD_INIT,
+  LCD_NORMAL,
+  LCD_TARE,
+  LCD_CALIBRATION,
+  LCD_CALIBRATION_WAITING,
+  LCD_CALIBRATION_INPUT,
+  LCD_CONFIRMATION,
+} lcd_state_t;
+
+typedef enum {
+  RECEIVED,
+  FAILED
+} comm_response_t;
+
+typedef struct {
+  //
+} comm_response_data_t;
+
+typedef struct {
+  //
+} comm_data_t;
 
 // ESP32 B akan mengisi struct ini dan mengirimkannya ke A
 typedef struct {

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="BackendCodeEditorMiscSettings">
-    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="5" type="long" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="33" type="long" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/LiveTemplatesHousekeeping/HotspotSessionHintIsShown/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/RefactoringsMru/CppRenameRefactoring/DoRenameRelatedFiles/@EntryValue" value="false" type="bool" />
@@ -25,26 +25,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42c5d13a-26ac-40fe-b9cc-1e758214957f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/drivers/lcd_driver.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/drivers/lcd_driver.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/comm_task.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/comm_task.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/lcd_task.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/lcd_task.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/sub_main/main_task_ext.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/sub_main/main_task_ext.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/button_defs.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/button_defs.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/data_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/data_type.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/platformio.ini" beforeDir="false" afterPath="$PROJECT_DIR$/platformio.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/drivers/button_driver.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/drivers/button_driver.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/button_task.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/button_task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/button_task.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/button_task.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/lcd_task.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/lcd_task.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/main_task.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/main_task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/main_task.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/main_task.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,5 +151,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="dari laptop" />
+    <option name="LAST_COMMIT_MESSAGE" value="dari laptop" />
   </component>
 </project>

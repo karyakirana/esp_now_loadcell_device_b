@@ -17,9 +17,21 @@ static const char* TAG = "LCD_TASK";
 lcd_handle_t lcd_handle = NULL;
 QueueHandle_t lcd_queue_from_main = NULL;
 
+lcd_state current_lcd_state = LCD_IDLE;
+
 led_data_t lcd_data;
 
+// forward declaration
+static void lcd_state_dispatcher();
+
 static void lcd_render(void);
+static void lcd_render_init(void);
+static void lcd_render_normal(void);
+static void lcd_render_tare(void);
+static void lcd_render_calibration(void);
+static void lcd_render_calibration_waiting(void);
+static void lcd_render_calibration_input(void);
+static void lcd_render_confirmation(void);
 
 void lcd_task_init(void) {
   lcd_handle = liquidcrystal_i2c_create(LCD_I2C_ADDR, 16, 2);
@@ -47,20 +59,61 @@ void lcd_task_update(void) {
 }
 
 // --- static function ---
+static void lcd_state_dispatcher(void) {
+  switch (current_lcd_state) {
+    case LCD_IDLE:
+      break;
+    case LCD_INIT:
+      lcd_render_init();
+      break;
+    case LCD_NORMAL:
+      lcd_render_normal();
+      break;
+    case LCD_CALIBRATION:
+      lcd_render_calibration();
+      break;
+    case LCD_CALIBRATION_WAITING:
+      lcd_render_calibration_waiting();
+      break;
+    case LCD_CALIBRATION_INPUT:
+      lcd_render_calibration_input();
+      break;
+    case LCD_CONFIRMATION:
+      lcd_render_confirmation();
+      break;
+    default:
+      break;
+  }
+}
+
 static void lcd_render(void) {
   char buffer_line_1[16];
   char buffer_line_2[16];
 
+  const char* prev_line2  = "";
+
   lcd_set_cursor(lcd_handle, 0, 0);
   if (strlen(lcd_data.line_1) <= 16) {
     strncpy(buffer_line_1, lcd_data.line_1, 16);
-    buffer_line_1[15] = '\0';
     lcd_print(lcd_handle, buffer_line_1);
   }
+
   lcd_set_cursor(lcd_handle, 0, 1);
   if (strlen(lcd_data.line_2) <= 16) {
+    if (prev_line2 != lcd_data.line_2) {
+      // kosongkan dulu
+      lcd_print(lcd_handle, "                ");
+      prev_line2 = lcd_data.line_2;
+    }
     strncpy(buffer_line_2, lcd_data.line_2, 16);
-    buffer_line_2[15] = '\0';
     lcd_print(lcd_handle, buffer_line_2);
   }
 }
+
+static void lcd_render_init(void) {}
+static void lcd_render_normal(void) {}
+static void lcd_render_tare(void) {}
+static void lcd_render_calibration(void) {}
+static void lcd_render_calibration_waiting(void) {}
+static void lcd_render_calibration_input(void) {}
+static void lcd_render_confirmation(void) {}

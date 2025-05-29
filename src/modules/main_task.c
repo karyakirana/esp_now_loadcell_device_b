@@ -22,6 +22,11 @@ QueueHandle_t main_to_com_handler;
 weight_data_t weight_data;
 led_data_t led_data;
 button_event_type_t button_event;
+comm_send_data_t comm_send_data;
+
+typedef enum {GRAM, KG, TON} gramature_t;
+
+gramature_t current_gramature = GRAM;
 
 char buffer_1[16];
 char buffer_2[16];
@@ -30,6 +35,7 @@ char buffer_2[16];
 static void rcv_queue_from_button_handler(void);
 static void rcv_queue_from_comm_handler(void);
 static void send_queue_to_led_handler(void);
+static void send_queue_to_com_handler(void);
 
 // handler queue by state
 static void normal_mode_handler(void);
@@ -50,7 +56,11 @@ static void main_sub_state_queue_dispatcher(void);
 static void lcd_queue_handler(void);
 static void comm_queue_handler(void);
 
+// helper static function
+static float change_gramature(float units);
+
 void main_task_init(void) {
+  // todo: init from nvs
 }
 
 bool main_task_rcv_button(QueueHandle_t rcv_btn_queue) {
@@ -136,6 +146,13 @@ static void send_queue_to_led_handler(void) {
   }
 }
 
+static void send_queue_to_com_handler(void) {
+  if (!comm_send_data) return;
+  if (xQueueSend(main_to_com_handler, &comm_send_data, pdMS_TO_TICKS(100)) != pdPASS) {
+    ESP_LOGW(TAG, "main_task_send_com: timeout");
+  }
+}
+
 static void main_state_queue_dispatcher(void) {
   if (current_state == CALIBRATION_MODE) {
     main_sub_state_queue_dispatcher();
@@ -191,7 +208,35 @@ static void main_sub_state_queue_dispatcher(void) {
   }
 }
 
-static void normal_mode_handler(void) {}
+static void normal_mode_handler(void) {
+  // todo: receive from comm
+  rcv_queue_from_comm_handler();
+  button_event_type_t rcv_button_event = button_event;
+  // todo: normal weight
+  // todo: change gramature
+  if (rcv_button_event == BUTTON_EVENT_B_SINGLE_CLICK) {
+    if (current_gramature == GRAM) {current_gramature = KG;}
+    if (current_gramature == KG) {current_gramature = TON;}
+    if (current_gramature == TON) {current_gramature = GRAM;}
+  }
+  // todo: tare
+  if (rcv_button_event == BUTTON_EVENT_A_SINGLE_CLICK) {
+    // send cmd
+    comm_send_data.command = CMD_NORMAL_TARE;
+    send_queue_to_com_handler();
+    return;
+  }
+  // todo: send to lcd
+  float current_units = change_gramature(weight_data.units);
+  sprintf(buffer_1, "%.2f", current_units);
+  led_data.line_1 = buffer_1;
+  if (current_gramature == GRAM) {led_data.line_2 = "GRAM";}
+  if (current_gramature == KG) {led_data.line_2 = "KG";}
+  if (current_gramature == TON) {led_data.line_2 = "TON";}
+  send_queue_to_led_handler();
+  // todo: send to comm
+}
+
 static void sleep_mode_handler(void) {}
 static void deep_sleep_handler(void) {}
 static void wake_up_handler(void) {}
@@ -200,3 +245,16 @@ static void cal_init_handler(void) {}
 static void cal_waiting_handler(void) {}
 static void cal_input_handler(void) {}
 static void cal_confirmation_handler(void) {}
+
+static float change_gramature(float units) {
+  switch (current_gramature) {
+    case GRAM:
+      return units;
+    case KG:
+      return units / 1000;
+    case TON:
+      return units / 1000000;
+    default:
+      return 0.0f;
+  }
+}
